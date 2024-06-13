@@ -1,0 +1,193 @@
+package com.mycompany.customizablealarmclock;
+
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class CustomizableAlarmClock {
+    private Timer timer;
+    private boolean isAlarmSet;
+    private int alarmHour;
+    private int alarmMinute;
+    private boolean isSleepTrackingEnabled;
+    private boolean isSmartphoneIntegrationEnabled;
+    private boolean isVoiceControlEnabled;
+    private boolean isGradualWakeUpEnabled;
+    private boolean isSmartHomeIntegrationEnabled;
+
+    public CustomizableAlarmClock() {
+        timer = new Timer();
+        isAlarmSet = false;
+        isSleepTrackingEnabled = false;
+        isSmartphoneIntegrationEnabled = false;
+        isVoiceControlEnabled = false;
+        isGradualWakeUpEnabled = false;
+        isSmartHomeIntegrationEnabled = false;
+    }
+
+    public void setAlarm(int hour, int minute) {
+        alarmHour = hour;
+        alarmMinute = minute;
+        timer.schedule(new RemindTask(), calculateDelay(hour, minute));
+        isAlarmSet = true;
+        System.out.println("Alarm set for " + hour + ":" + minute);
+    }
+
+    public void disableAlarm() {
+        timer.cancel();
+        isAlarmSet = false;
+        System.out.println("Alarm disabled.");
+    }
+
+    public void enableSleepTracking() {
+        isSleepTrackingEnabled = true;
+        System.out.println("Sleep tracking enabled.");
+    }
+
+    public void disableSleepTracking() {
+        isSleepTrackingEnabled = false;
+        System.out.println("Sleep tracking disabled.");
+    }
+
+    public void enableSmartphoneIntegration() {
+        isSmartphoneIntegrationEnabled = true;
+        System.out.println("Smartphone integration enabled.");
+    }
+
+    public void disableSmartphoneIntegration() {
+        isSmartphoneIntegrationEnabled = false;
+        System.out.println("Smartphone integration disabled.");
+    }
+
+    public void enableVoiceControl() {
+        isVoiceControlEnabled = true;
+        System.out.println("Voice control enabled.");
+    }
+
+    public void disableVoiceControl() {
+        isVoiceControlEnabled = false;
+        System.out.println("Voice control disabled.");
+    }
+
+    public void enableGradualWakeUp() {
+        isGradualWakeUpEnabled = true;
+        System.out.println("Gradual wake-up enabled.");
+    }
+
+    public void disableGradualWakeUp() {
+        isGradualWakeUpEnabled = false;
+        System.out.println("Gradual wake-up disabled.");
+    }
+
+    public void enableSmartHomeIntegration() {
+        isSmartHomeIntegrationEnabled = true;
+        System.out.println("Smart home integration enabled.");
+    }
+
+    public void disableSmartHomeIntegration() {
+        isSmartHomeIntegrationEnabled = false;
+        System.out.println("Smart home integration disabled.");
+    }
+
+    class RemindTask extends TimerTask {
+        public void run() {
+            System.out.println("Time's up! Alarm activated.");
+            if (isGradualWakeUpEnabled) {
+                gradualWakeUp();
+            }
+            // Additional actions for alarm activation
+        }
+    }
+
+    private long calculateDelay(int hour, int minute) {
+        long currentTimeMillis = System.currentTimeMillis();
+        long alarmTimeMillis = currentTimeMillis - (currentTimeMillis % (24 * 60 * 60 * 1000))
+                + (hour * 60 * 60 * 1000) + (minute * 60 * 1000);
+        if (alarmTimeMillis < currentTimeMillis) {
+            alarmTimeMillis += 24 * 60 * 60 * 1000;
+        }
+        return alarmTimeMillis - currentTimeMillis;
+    }
+
+    private void gradualWakeUp() {
+        // Implement gradual wake-up feature
+        System.out.println("Gradually waking up...");
+    }
+
+    public static void main(String[] args) {
+        CustomizableAlarmClock alarmClock = new CustomizableAlarmClock();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Customizable Alarm Clock!");
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Set Alarm");
+            System.out.println("2. Disable Alarm");
+            System.out.println("3. Enable Sleep Tracking");
+            System.out.println("4. Disable Sleep Tracking");
+            System.out.println("5. Enable Smartphone Integration");
+            System.out.println("6. Disable Smartphone Integration");
+            System.out.println("7. Enable Voice Control");
+            System.out.println("8. Disable Voice Control");
+            System.out.println("9. Enable Gradual Wake-Up");
+            System.out.println("10. Disable Gradual Wake-Up");
+            System.out.println("11. Enable Smart Home Integration");
+            System.out.println("12. Disable Smart Home Integration");
+            System.out.println("13. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter alarm hour (0-23): ");
+                    int hour = scanner.nextInt();
+                    System.out.print("Enter alarm minute (0-59): ");
+                    int minute = scanner.nextInt();
+                    alarmClock.setAlarm(hour, minute);
+                    break;
+                case 2:
+                    alarmClock.disableAlarm();
+                    break;
+                case 3:
+                    alarmClock.enableSleepTracking();
+                    break;
+                case 4:
+                    alarmClock.disableSleepTracking();
+                    break;
+                case 5:
+                    alarmClock.enableSmartphoneIntegration();
+                    break;
+                case 6:
+                    alarmClock.disableSmartphoneIntegration();
+                    break;
+                case 7:
+                    alarmClock.enableVoiceControl();
+                    break;
+                case 8:
+                    alarmClock.disableVoiceControl();
+                    break;
+                case 9:
+                    alarmClock.enableGradualWakeUp();
+                    break;
+                case 10:
+                    alarmClock.disableGradualWakeUp();
+                    break;
+                case 11:
+                    alarmClock.enableSmartHomeIntegration();
+                    break;
+                case 12:
+                    alarmClock.disableSmartHomeIntegration();
+                    break;
+                case 13:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
